@@ -6,7 +6,6 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Enter a list of integers separated by spaces:");
         String input = scanner.nextLine();
 
         String[] numbers = input.split(" ");
@@ -20,9 +19,10 @@ public class Main {
         System.out.println("distinct: " + sortedWithOutDistinctList.size());
         System.out.println("min: " + Collections.min(sortedWithOutDistinctList));
         System.out.println("max: " +  Collections.max(sortedWithOutDistinctList));
+        scanner.close();
     }
 
-    private static Set<Integer> getSortedDistinctNumbers(int[] integerArray) {
+    public static Set<Integer> getSortedDistinctNumbers(int[] integerArray) {
         Set<Integer> distinctElements = new TreeSet<>();
         for (int num : integerArray) {
             distinctElements.add(num);
@@ -30,7 +30,7 @@ public class Main {
         return distinctElements;
     }
 
-    private static int[] getIntegerArray(String[] numbers) {
+    public static int[] getIntegerArray(String[] numbers) {
         return Arrays.stream(numbers)
                 .mapToInt(Integer::parseInt)
                 .toArray();
