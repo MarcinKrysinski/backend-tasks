@@ -1,6 +1,7 @@
 package pl.krysinski;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class App {
 
@@ -13,7 +14,7 @@ public class App {
         String[] numbers = input.split(" ");
         int[] integerArray = getIntegerArray(numbers);
         List<String> result = findPairs(integerArray);
-        result.stream().sorted().forEach(System.out::println);
+        getSortedPairsList(result).forEach(System.out::println);
         scanner.close();
     }
 
@@ -23,7 +24,7 @@ public class App {
                 .toArray();
     }
 
-    private static List<String> findPairs(int[] numbersArray) {
+    static List<String> findPairs(int[] numbersArray) {
         List<String> result = new ArrayList<>();
         Set<Integer> checkedNumbers = new HashSet<>();
         for (int num : numbersArray) {
@@ -36,5 +37,9 @@ public class App {
             checkedNumbers.add(num);
         }
         return result;
+    }
+
+    static List<String> getSortedPairsList(List<String> result) {
+        return result.stream().sorted().collect(Collectors.toList());
     }
 }

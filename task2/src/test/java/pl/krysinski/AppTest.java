@@ -1,38 +1,42 @@
 package pl.krysinski;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import java.util.List;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-/**
- * Unit test for simple App.
- */
-public class AppTest 
-    extends TestCase
-{
-    /**
-     * Create the test case
-     *
-     * @param testName name of the test case
-     */
-    public AppTest( String testName )
-    {
-        super( testName );
+
+public class AppTest {
+    @Test
+    void getIntegerArrayTest() {
+        //given
+        String[] numbers = {"1", "2", "3", "4"};
+        int[] expected = {1, 2, 3, 4};
+        //when
+        int[] result = App.getIntegerArray(numbers);
+        //then
+        assertArrayEquals(expected, result);
     }
 
-    /**
-     * @return the suite of tests being tested
-     */
-    public static Test suite()
-    {
-        return new TestSuite( AppTest.class );
+    @Test
+    void findPairsTest() {
+        //given
+        int[] numbersArray = {1, 2, 10, 7, 5, 3, 6, 6, 13, 0};
+        List<String> expected = List.of("3 10", "6 7", "6 7", "0 13");
+        //when
+        List<String> result = App.findPairs(numbersArray);
+        //then
+        assertEquals(expected, result);
     }
 
-    /**
-     * Rigourous Test :-)
-     */
-    public void testApp()
-    {
-        assertTrue( true );
+    @Test
+    void getSortedPairsListTest() {
+        //given
+        List<String> noSortedPairsList = List.of("3 10", "6 7", "6 7", "0 13");
+        List<String> expected = List.of( "0 13", "3 10", "6 7", "6 7");
+        //when
+        List<String> result = App.getSortedPairsList(noSortedPairsList);
+        //then
+        assertEquals(expected, result);
     }
 }
