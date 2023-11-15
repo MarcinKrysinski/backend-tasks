@@ -39,26 +39,24 @@ public class App {
         Scanner scanner = new Scanner(System.in);
         int n = scanner.nextInt();
 
+        Map<Integer, Vertex> graph = getGraph(n, scanner);
+
+        int separatedGraphs = countGraphs(graph);
+        System.out.println(separatedGraphs);
+    }
+
+    private static Map<Integer, Vertex> getGraph(int n, Scanner scanner) {
         Map<Integer, Vertex> graph = new HashMap<>();
-        List<Vertex> graph2 = new ArrayList<>();
 
         for (int i = 0; i < n; i++) {
             int a = scanner.nextInt();
             int b = scanner.nextInt();
 
-            Vertex v = new Vertex(a);
-            v.getNeighbors().add(b);
-            graph2.add(new Vertex(a));
-            Vertex v2 = new Vertex(b);
-            v2.getNeighbors().add(a);
-            graph2.add(new Vertex(a));
-            graph.put(a, v);
-            graph.put(b, v2);
+            graph.computeIfAbsent(a, Vertex::new).getNeighbors().add(b);
+            graph.computeIfAbsent(b, Vertex::new).getNeighbors().add(a);
 
         }
-
-        int separatedGraphs = countGraphs(graph);
-        System.out.println(separatedGraphs);
+        return graph;
     }
 
     private static int countGraphs(Map<Integer, Vertex> graph) {
@@ -92,4 +90,3 @@ public class App {
         }
     }
 }
-
