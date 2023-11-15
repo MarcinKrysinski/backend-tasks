@@ -43,7 +43,6 @@ public class Main {
                     .toArray();
         } catch (NumberFormatException e) {
             System.out.println("Error: Only integers!");
-            System.out.println(e.getMessage());
         }
         return new int[]{};
     }
