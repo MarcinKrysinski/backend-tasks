@@ -8,33 +8,34 @@ public class App {
         Scanner scanner = new Scanner(System.in);
         int n = scanner.nextInt();
 
-        Map<Integer, Vertex> graph = getGraph(n, scanner);
+        Map<Integer, ArrayList<Integer>> graphConnections = getGraphConnections(n, scanner);
 
-        int separatedGraphs = countGraphs(graph);
-        System.out.println(separatedGraphs);
+        int numberSeparatedGraphs = countSeparatedGraphs(graphConnections);
+        System.out.println(numberSeparatedGraphs);
         scanner.close();
     }
 
-    private static Map<Integer, Vertex> getGraph(int n, Scanner scanner) {
-        Map<Integer, Vertex> graph = new HashMap<>();
+    static Map<Integer, ArrayList<Integer>> getGraphConnections(int n, Scanner scanner) {
+        Map<Integer, ArrayList<Integer>> graphConnections = new HashMap<>();
 
         for (int i = 0; i < n; i++) {
             int a = scanner.nextInt();
             int b = scanner.nextInt();
 
-            graph.computeIfAbsent(a, Vertex::new).getNeighbors().add(b);
-            graph.computeIfAbsent(b, Vertex::new).getNeighbors().add(a);
+            graphConnections.computeIfAbsent(a, neighbour -> new ArrayList<>()).add(b);
+            graphConnections.computeIfAbsent(b, neighbour -> new ArrayList<>()).add(a);
 
         }
-        return graph;
+        return graphConnections;
     }
 
-    private static int countGraphs(Map<Integer, Vertex> graph) {
+    static int countSeparatedGraphs(Map<Integer, ArrayList<Integer>> graphConnections) {
+        ArrayList<Integer> visitedElement = new ArrayList<>();
         int separatedGraphs = 0;
 
-        for (Vertex vertex : graph.values()) {
-            if (!vertex.isVisited()) {
-                bfs(graph, vertex);
+        for (int vertex : graphConnections.keySet()) {
+            if (!visitedElement.contains(vertex)) {
+                breadthFirstSearchAlgorithm(graphConnections, vertex, visitedElement);
                 separatedGraphs++;
             }
         }
@@ -42,19 +43,18 @@ public class App {
         return separatedGraphs;
     }
 
-    private static void bfs(Map<Integer, Vertex> graph, Vertex startVertex) {
-        Queue<Vertex> queue = new LinkedList<>();
+    private static void breadthFirstSearchAlgorithm(Map<Integer, ArrayList<Integer>> graphConnections, int startVertex, ArrayList<Integer> visitedElement) {
+        Queue<Integer> queue = new LinkedList<>();
         queue.add(startVertex);
-        startVertex.setVisited(true);
 
         while (!queue.isEmpty()) {
-            Vertex currentVertex = queue.poll();
-
-            for (int neighborId : currentVertex.getNeighbors()) {
-                Vertex neighborVertex = graph.get(neighborId);
-                if (neighborVertex != null && !neighborVertex.isVisited()) {
-                    queue.add(neighborVertex);
-                    neighborVertex.setVisited(true);
+            int currentVertex = queue.poll();
+            for (int neighbor : graphConnections.get(currentVertex)) {
+                if (!visitedElement.contains(neighbor)) {
+                    if (graphConnections.size() % 2 == 0) {
+                        queue.add(neighbor);
+                    }
+                    visitedElement.add(neighbor);
                 }
             }
         }
