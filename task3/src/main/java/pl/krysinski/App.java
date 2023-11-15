@@ -2,37 +2,6 @@ package pl.krysinski;
 
 import java.util.*;
 
-/**
- * Hello world!
- */
-
-class Vertex {
-    private int id;
-    private boolean visited;
-    private List<Integer> neighbors = new LinkedList<>();
-
-    Vertex(int id) {
-        this.id = id;
-        this.visited = false;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public boolean isVisited() {
-        return visited;
-    }
-
-    public void setVisited(boolean visited) {
-        this.visited = visited;
-    }
-
-    public List<Integer> getNeighbors() {
-        return neighbors;
-    }
-}
-
 public class App {
 
     public static void main(String[] args) {
@@ -43,6 +12,7 @@ public class App {
 
         int separatedGraphs = countGraphs(graph);
         System.out.println(separatedGraphs);
+        scanner.close();
     }
 
     private static Map<Integer, Vertex> getGraph(int n, Scanner scanner) {
