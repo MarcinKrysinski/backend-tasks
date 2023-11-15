@@ -42,7 +42,22 @@ public class MainTest {
         //when
         Main.main(new String[0]);
         //then
-        String expectedOutput = "[1, 2, 3, 4, 5]\r\ncount: 7\r\ndistinct: 5\r\nmin: 1\r\nmax: 5\r\n";
+        String expectedOutput = "Enter numbers of integers seperated by a space: \r\n[1, 2, 3, 4, 5]\r\ncount: 7\r\ndistinct: 5\r\nmin: 1\r\nmax: 5\r\n";
+        assertEquals(expectedOutput, outputStream.toString());
+    }
+
+    @Test
+    public void mainTestWithError() {
+        //given
+        String simulatedInput = "3 1 f 2 4 3 5";
+        System.setIn(new java.io.ByteArrayInputStream(simulatedInput.getBytes()));
+
+        java.io.ByteArrayOutputStream outputStream = new java.io.ByteArrayOutputStream();
+        System.setOut(new java.io.PrintStream(outputStream));
+        //when
+        Main.main(new String[0]);
+        //then
+        String expectedOutput = "Enter numbers of integers seperated by a space: \r\nError: Only integers!\r\n";
         assertEquals(expectedOutput, outputStream.toString());
     }
 }

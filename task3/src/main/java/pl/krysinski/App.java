@@ -24,9 +24,7 @@ public class App {
                 }
             }
         }
-
         scanner.close();
-
     }
 
     static Map<Integer, Set<Integer>> getGraphConnectionsMap(int connectionsNumber, Scanner scanner) {

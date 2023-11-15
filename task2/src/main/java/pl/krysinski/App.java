@@ -9,6 +9,7 @@ public class App {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter numbers of integers seperated by a space: ");
         String input = scanner.nextLine();
 
         String[] numbers = input.split(" ");
@@ -19,9 +20,15 @@ public class App {
     }
 
     public static int[] getIntegerArray(String[] numbers) {
-        return Arrays.stream(numbers)
-                .mapToInt(Integer::parseInt)
-                .toArray();
+        try {
+            return Arrays.stream(numbers)
+                    .mapToInt(Integer::parseInt)
+                    .toArray();
+        } catch (NumberFormatException e) {
+            System.out.println("Error: Only integers!");
+            System.out.println(e.getMessage());
+            return new int[]{};
+        }
     }
 
     static List<String> findPairs(int[] numbersArray) {
