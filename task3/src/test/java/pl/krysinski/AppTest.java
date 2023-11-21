@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.io.ByteArrayInputStream;
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class AppTest {
     @Test
@@ -55,5 +55,39 @@ public class AppTest {
         Map<Integer, Set<Integer>> result = App.getGraphConnectionsMap(2, new Scanner(System.in));
         //then
         assertEquals(expected, result);
+    }
+
+    @Test
+    void testPositiveDepthFirstSearchAlgorithm() {
+        //given
+        Map<Integer, Set<Integer>> graph = new HashMap<>();
+        graph.put(1, new HashSet<>(Arrays.asList(2, 3)));
+        graph.put(2, new HashSet<>(Arrays.asList(4, 5)));
+        graph.put(3, new HashSet<>(Arrays.asList(6, 7)));
+        graph.put(4, new HashSet<>(Arrays.asList(8, 9)));
+        graph.put(5, new HashSet<>(Arrays.asList(10, 11)));
+        ArrayList<Integer> visited = new ArrayList<>();
+
+        //when
+        boolean result = App.depthFirstSearchAlgorithm(graph, 1, visited);
+
+        //then
+        assertTrue(result);
+    }
+
+    @Test
+    void testNegativeDepthFirstSearchAlgorithm() {
+        //given
+        Map<Integer, Set<Integer>> graph = new HashMap<>();
+        graph.put(1, new HashSet<>(Arrays.asList(1, 1)));
+        graph.put(2, new HashSet<>(Arrays.asList(1, 1)));
+        graph.put(3, new HashSet<>(Arrays.asList(1, 1)));
+        ArrayList<Integer> visited = new ArrayList<>();
+
+        //when
+        boolean result = App.depthFirstSearchAlgorithm(graph, 1, visited);
+
+        //then
+        assertFalse(result);
     }
 }

@@ -4,27 +4,41 @@ import java.util.*;
 
 public class App {
 
+//    public static void main(String[] args) {
+//        Scanner scanner = new Scanner(System.in);
+//        while (true) {
+//            System.out.println("Enter number of connections (or 'q' to quit): ");
+//            if (scanner.hasNextInt()) {
+//                int connectionsNumber = scanner.nextInt();
+//                Map<Integer, Set<Integer>> graphConnectionsMap = getGraphConnectionsMap(connectionsNumber, scanner);
+//                if (!graphConnectionsMap.isEmpty()) {
+//                    int separatedGraphs = countSeparatedGraphs(graphConnectionsMap);
+//                    System.out.println(separatedGraphs);
+//                }
+//            } else {
+//                String userInput = scanner.next();
+//                if (userInput.equalsIgnoreCase("q")) {
+//                    break;
+//                } else {
+//                    System.out.println("Invalid input. Please enter a valid integer or 'q' to quit.");
+//                }
+//            }
+//        }
+//        scanner.close();
+//    }
+
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        while (true) {
-            System.out.println("Enter number of connections (or 'q' to quit): ");
-            if (scanner.hasNextInt()) {
-                int connectionsNumber = scanner.nextInt();
-                Map<Integer, Set<Integer>> graphConnectionsMap = getGraphConnectionsMap(connectionsNumber, scanner);
-                if (!graphConnectionsMap.isEmpty()) {
-                    int separatedGraphs = countSeparatedGraphs(graphConnectionsMap);
-                    System.out.println(separatedGraphs);
-                }
-            } else {
-                String userInput = scanner.next();
-                if (userInput.equalsIgnoreCase("q")) {
-                    break;
-                } else {
-                    System.out.println("Invalid input. Please enter a valid integer or 'q' to quit.");
-                }
-            }
+        try {
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Enter number of connections: ");
+            int connectionsNumber = scanner.nextInt();
+            Map<Integer, Set<Integer>> graphConnectionsMap = getGraphConnectionsMap(connectionsNumber, scanner);
+            int separatedGraphs = countSeparatedGraphs(graphConnectionsMap);
+            System.out.println(separatedGraphs);
+            scanner.close();
+        } catch (InputMismatchException e) {
+            System.err.println("Input is not a integer value.");
         }
-        scanner.close();
     }
 
     static Map<Integer, Set<Integer>> getGraphConnectionsMap(int connectionsNumber, Scanner scanner) {
@@ -38,8 +52,7 @@ public class App {
                 graphConnectionsMap.computeIfAbsent(a, neighbour -> new HashSet<>()).add(b);
                 graphConnectionsMap.computeIfAbsent(b, neighbour -> new HashSet<>()).add(a);
             } catch (InputMismatchException e) {
-                System.out.println("Input is not a integer value.");
-                scanner.nextLine();
+                System.err.println("Input is not a integer value.");
                 graphConnectionsMap.clear();
                 return graphConnectionsMap;
             }
@@ -56,26 +69,25 @@ public class App {
         ArrayList<Integer> visitedElement = new ArrayList<>();
 
         for (int vertex : graphConnections.keySet()) {
-            if (!visitedElement.contains(vertex) && breadthFirstSearchAlgorithm(graphConnections, vertex, visitedElement)) {
+            if (!visitedElement.contains(vertex) && depthFirstSearchAlgorithm(graphConnections, vertex, visitedElement)) {
                 separatedGraphs++;
             }
         }
-
         return separatedGraphs;
     }
 
-    private static boolean breadthFirstSearchAlgorithm(Map<Integer, Set<Integer>> graphConnections, int startVertex, ArrayList<Integer> visitedElement) {
-        Queue<Integer> queue = new LinkedList<>();
-        queue.add(startVertex);
+    static boolean depthFirstSearchAlgorithm(Map<Integer, Set<Integer>> graphConnections, int startVertex, ArrayList<Integer> visitedElement) {
+        Stack<Integer> stack = new Stack<>();
+        stack.push(startVertex);
 
-        while (!queue.isEmpty()) {
-            int currentVertex = queue.poll();
+        while (!stack.isEmpty()) {
+            int currentVertex = stack.pop();
             for (int neighbor : graphConnections.getOrDefault(currentVertex, Collections.emptySet())) {
                 if (!visitedElement.contains(neighbor)) {
                     if (currentVertex == neighbor) {
                         return false;
                     }
-                    queue.add(neighbor);
+                    stack.push(neighbor);
                     visitedElement.add(neighbor);
                 }
             }
