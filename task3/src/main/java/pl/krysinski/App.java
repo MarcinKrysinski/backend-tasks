@@ -4,29 +4,6 @@ import java.util.*;
 
 public class App {
 
-//    public static void main(String[] args) {
-//        Scanner scanner = new Scanner(System.in);
-//        while (true) {
-//            System.out.println("Enter number of connections (or 'q' to quit): ");
-//            if (scanner.hasNextInt()) {
-//                int connectionsNumber = scanner.nextInt();
-//                Map<Integer, Set<Integer>> graphConnectionsMap = getGraphConnectionsMap(connectionsNumber, scanner);
-//                if (!graphConnectionsMap.isEmpty()) {
-//                    int separatedGraphs = countSeparatedGraphs(graphConnectionsMap);
-//                    System.out.println(separatedGraphs);
-//                }
-//            } else {
-//                String userInput = scanner.next();
-//                if (userInput.equalsIgnoreCase("q")) {
-//                    break;
-//                } else {
-//                    System.out.println("Invalid input. Please enter a valid integer or 'q' to quit.");
-//                }
-//            }
-//        }
-//        scanner.close();
-//    }
-
     public static void main(String[] args) {
         try {
             Scanner scanner = new Scanner(System.in);
