@@ -25,6 +25,17 @@ public class AppTest {
     }
 
     @Test
+    void testCountSeparatedGraphsWhenGraphNotExits() {
+        //given
+        Map<Integer, Integer> graph = new HashMap<>();
+        graph.put(1, 1);
+        //when
+        int result = App.countSeparatedGraphs(graph);
+        //then
+        assertEquals(0, result);
+    }
+
+    @Test
     void testGetGraphConnectionsMap() {
         //given
         String mockInput = "1 3\n3 1\n5 6\n";
