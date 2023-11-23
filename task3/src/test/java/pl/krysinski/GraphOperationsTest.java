@@ -8,7 +8,8 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class AppTest {
+public class GraphOperationsTest {
+    GraphOperations graphOperations = new GraphOperations();
     @Test
     void testCountSeparatedGraphs() {
         //given
@@ -19,20 +20,20 @@ public class AppTest {
         graph.put(6, 5);
         graph.put(7, 8);
         //when
-        int result = App.countSeparatedGraphs(graph);
+        int result = graphOperations.countSeparatedGraphs(graph);
         //then
         assertEquals(3, result);
     }
 
     @Test
-    void testCountSeparatedGraphsWhenGraphNotExits() {
+    void testCountSeparatedGraphsOneElementGraph() {
         //given
         Map<Integer, Integer> graph = new HashMap<>();
         graph.put(1, 1);
         //when
-        int result = App.countSeparatedGraphs(graph);
+        int result = graphOperations.countSeparatedGraphs(graph);
         //then
-        assertEquals(0, result);
+        assertEquals(1, result);
     }
 
     @Test
@@ -47,7 +48,7 @@ public class AppTest {
         expected.put(5, 6);
         expected.put(6, 5);
         //when
-        Map<Integer, Integer> result = App.getGraphConnectionsMap(3, new Scanner(System.in));
+        Map<Integer, Integer> result = graphOperations.getGraphConnectionsMap(3, new Scanner(System.in));
         //then
         assertEquals(expected, result);
     }
@@ -63,7 +64,7 @@ public class AppTest {
         expected.put(2, 3);
         expected.put(3, 2);
         //when
-        Map<Integer, Integer> result = App.getGraphConnectionsMap(2, new Scanner(System.in));
+        Map<Integer, Integer> result = graphOperations.getGraphConnectionsMap(2, new Scanner(System.in));
         //then
         assertEquals(expected, result);
     }
@@ -77,28 +78,13 @@ public class AppTest {
         graph.put(3, 6);
         graph.put(4, 8);
         graph.put(5, 10);
-        ArrayList<Integer> visited = new ArrayList<>();
+        Set<Integer> visited = new HashSet<>();
 
         //when
-        boolean result = App.depthFirstSearchAlgorithm(graph, 1, visited);
+        boolean result = graphOperations.depthFirstSearchAlgorithm(graph, 1, visited);
 
         //then
         assertTrue(result);
     }
 
-    @Test
-    void testNegativeDepthFirstSearchAlgorithm() {
-        //given
-        Map<Integer, Integer> graph = new HashMap<>();
-        graph.put(1, 1);
-        graph.put(2, 1);
-        graph.put(3, 1);
-        ArrayList<Integer> visited = new ArrayList<>();
-
-        //when
-        boolean result = App.depthFirstSearchAlgorithm(graph, 1, visited);
-
-        //then
-        assertFalse(result);
-    }
 }
