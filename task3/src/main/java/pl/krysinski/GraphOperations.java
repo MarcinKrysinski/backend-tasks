@@ -47,9 +47,6 @@ public class GraphOperations {
             int currentVertex = stack.pop();
             if (!visitedElement.contains(currentVertex)) {
                 int neighbor = graphConnections.get(currentVertex);
-                if (currentVertex == neighbor) { // to jest po to gdy przychodzi coś takiego `1 1` czyli jeden element a to chyba nie jest graf
-                    return false;
-                }
                 stack.push(neighbor);
                 visitedElement.add(neighbor);
             }
