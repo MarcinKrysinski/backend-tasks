@@ -9,7 +9,7 @@ public class App {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Enter number of connections: ");
             int connectionsNumber = scanner.nextInt();
-            Map<Integer,Integer> graphConnectionsMap = getGraphConnectionsMap(connectionsNumber, scanner);
+            Map<Integer, Integer> graphConnectionsMap = getGraphConnectionsMap(connectionsNumber, scanner);
             int separatedGraphs = countSeparatedGraphs(graphConnectionsMap);
             System.out.println(separatedGraphs);
             scanner.close();
@@ -60,15 +60,15 @@ public class App {
 
         while (!stack.isEmpty()) {
             int currentVertex = stack.pop();
-            Integer neighbor = graphConnections.getOrDefault(currentVertex, null);
-                if (neighbor != null && !visitedElement.contains(neighbor)) {
-                    if (currentVertex == neighbor) {
-                        return false;
-                    }
-                    stack.push(neighbor);
-                    visitedElement.add(neighbor);
+            if (!visitedElement.contains(currentVertex)) {
+                int neighbor = graphConnections.get(currentVertex);
+                if (currentVertex == neighbor) {
+                    return false;
                 }
+                stack.push(neighbor);
+                visitedElement.add(neighbor);
             }
+        }
         return true;
     }
 }
