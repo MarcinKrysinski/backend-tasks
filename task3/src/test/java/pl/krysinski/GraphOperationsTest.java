@@ -8,7 +8,7 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class AppTest {
+public class GraphOperationsTest {
     GraphOperations graphOperations = new GraphOperations();
     @Test
     void testCountSeparatedGraphs() {
@@ -26,14 +26,14 @@ public class AppTest {
     }
 
     @Test
-    void testCountSeparatedGraphsWhenGraphNotExits() {
+    void testCountSeparatedGraphsOneElementGraph() {
         //given
         Map<Integer, Integer> graph = new HashMap<>();
         graph.put(1, 1);
         //when
         int result = graphOperations.countSeparatedGraphs(graph);
         //then
-        assertEquals(0, result);
+        assertEquals(1, result);
     }
 
     @Test
