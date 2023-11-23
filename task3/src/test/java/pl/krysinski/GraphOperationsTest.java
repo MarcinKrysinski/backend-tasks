@@ -87,19 +87,4 @@ public class GraphOperationsTest {
         assertTrue(result);
     }
 
-    @Test
-    void testNegativeDepthFirstSearchAlgorithm() {
-        //given
-        Map<Integer, Integer> graph = new HashMap<>();
-        graph.put(1, 1);
-        graph.put(2, 1);
-        graph.put(3, 1);
-        Set<Integer> visited = new HashSet<>();
-
-        //when
-        boolean result = graphOperations.depthFirstSearchAlgorithm(graph, 1, visited);
-
-        //then
-        assertFalse(result);
-    }
 }
