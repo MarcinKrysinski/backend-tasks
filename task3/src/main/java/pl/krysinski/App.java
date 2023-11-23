@@ -9,7 +9,7 @@ public class App {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Enter number of connections: ");
             int connectionsNumber = scanner.nextInt();
-            Map<Integer, Integer> graphConnectionsMap = getGraphConnectionsMap(connectionsNumber, scanner);
+            Map<Integer,Integer> graphConnectionsMap = getGraphConnectionsMap(connectionsNumber, scanner);
             int separatedGraphs = countSeparatedGraphs(graphConnectionsMap);
             System.out.println(separatedGraphs);
             scanner.close();
@@ -60,32 +60,15 @@ public class App {
 
         while (!stack.isEmpty()) {
             int currentVertex = stack.pop();
-            if (!visitedElement.contains(currentVertex)) {
-                int neighbor = graphConnections.get(currentVertex);
-                if (currentVertex == neighbor) {
-                    return false;
+            Integer neighbor = graphConnections.getOrDefault(currentVertex, null);
+                if (neighbor != null && !visitedElement.contains(neighbor)) {
+                    if (currentVertex == neighbor) {
+                        return false;
+                    }
+                    stack.push(neighbor);
+                    visitedElement.add(neighbor);
                 }
-                stack.push(neighbor);
-                visitedElement.add(neighbor);
             }
-        }
-        return true;
-    }
-
-
-    static boolean depthFirstSearchAlgorithm2(Map<Integer, Set<Integer>> graphConnections, int startVertex, ArrayList<Integer> visitedElement) {
-        if (visitedElement.contains(startVertex)) {
-            return false;
-        }
-
-        visitedElement.add(startVertex);
-
-        for (int neighbor : graphConnections.getOrDefault(startVertex, Collections.emptySet())) {
-            if (!depthFirstSearchAlgorithm2(graphConnections, neighbor, visitedElement)) {
-                return false;
-            }
-        }
-
         return true;
     }
 }
