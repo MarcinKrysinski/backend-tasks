@@ -9,7 +9,7 @@ public class App {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Enter number of connections: ");
             int connectionsNumber = scanner.nextInt();
-            Map<Integer, Set<Integer>> graphConnectionsMap = getGraphConnectionsMap(connectionsNumber, scanner);
+            Map<Integer,Integer> graphConnectionsMap = getGraphConnectionsMap(connectionsNumber, scanner);
             int separatedGraphs = countSeparatedGraphs(graphConnectionsMap);
             System.out.println(separatedGraphs);
             scanner.close();
@@ -18,27 +18,27 @@ public class App {
         }
     }
 
-    static Map<Integer, Set<Integer>> getGraphConnectionsMap(int connectionsNumber, Scanner scanner) {
-        Map<Integer, Set<Integer>> graphConnectionsMap = new HashMap<>();
+    static Map<Integer, Integer> getGraphConnectionsMap(int connectionsNumber, Scanner scanner) {
+        Map<Integer, Integer> graphConnectionsMap2 = new HashMap<>();
         System.out.println("Enter " + connectionsNumber + " lines of pair connections seperated by a space \n(example:\n1 2\n2 3): ");
         for (int i = 0; i < connectionsNumber; i++) {
             try {
                 int a = scanner.nextInt();
                 int b = scanner.nextInt();
 
-                graphConnectionsMap.computeIfAbsent(a, neighbour -> new HashSet<>()).add(b);
-                graphConnectionsMap.computeIfAbsent(b, neighbour -> new HashSet<>()).add(a);
+                graphConnectionsMap2.put(a, b);
+                graphConnectionsMap2.put(b, a);
             } catch (InputMismatchException e) {
                 System.err.println("Input is not a integer value.");
-                graphConnectionsMap.clear();
-                return graphConnectionsMap;
+                graphConnectionsMap2.clear();
+                return graphConnectionsMap2;
             }
 
         }
-        return graphConnectionsMap;
+        return graphConnectionsMap2;
     }
 
-    static int countSeparatedGraphs(Map<Integer, Set<Integer>> graphConnections) {
+    static int countSeparatedGraphs(Map<Integer, Integer> graphConnections) {
         int separatedGraphs = 0;
         if (graphConnections.isEmpty()) {
             return separatedGraphs;
@@ -53,14 +53,15 @@ public class App {
         return separatedGraphs;
     }
 
-    static boolean depthFirstSearchAlgorithm(Map<Integer, Set<Integer>> graphConnections, int startVertex, ArrayList<Integer> visitedElement) {
+
+    static boolean depthFirstSearchAlgorithm(Map<Integer, Integer> graphConnections, int startVertex, ArrayList<Integer> visitedElement) {
         Stack<Integer> stack = new Stack<>();
         stack.push(startVertex);
 
         while (!stack.isEmpty()) {
             int currentVertex = stack.pop();
-            for (int neighbor : graphConnections.getOrDefault(currentVertex, Collections.emptySet())) {
-                if (!visitedElement.contains(neighbor)) {
+            Integer neighbor = graphConnections.getOrDefault(currentVertex, null);
+                if (neighbor != null && !visitedElement.contains(neighbor)) {
                     if (currentVertex == neighbor) {
                         return false;
                     }
@@ -68,7 +69,23 @@ public class App {
                     visitedElement.add(neighbor);
                 }
             }
+        return true;
+    }
+
+
+    static boolean depthFirstSearchAlgorithm2(Map<Integer, Set<Integer>> graphConnections, int startVertex, ArrayList<Integer> visitedElement) {
+        if (visitedElement.contains(startVertex)) {
+            return false;
         }
+
+        visitedElement.add(startVertex);
+
+        for (int neighbor : graphConnections.getOrDefault(startVertex, Collections.emptySet())) {
+            if (!depthFirstSearchAlgorithm2(graphConnections, neighbor, visitedElement)) {
+                return false;
+            }
+        }
+
         return true;
     }
 }
