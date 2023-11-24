@@ -13,10 +13,24 @@ public class App {
         String input = scanner.nextLine();
 
         String[] numbers = input.split(" ");
-        int[] integerArray = getIntegerArray(numbers);
-        List<String> result = findPairs(integerArray);
+        Map<Integer, Integer> integerOccurenceMap = getIntegerOccurenceMap(getIntegerArray(numbers));
+        List<String> result = findPairs(integerOccurenceMap);
         getSortedPairsList(result).forEach(System.out::println);
         scanner.close();
+    }
+
+    public static Map<Integer, Integer> getIntegerOccurenceMap(int[] integerArray) {
+        Map<Integer, Integer> integerOccurenceMap = new HashMap<>();
+
+        for (int number : integerArray) {
+            if (integerOccurenceMap.containsKey(number)) {
+                integerOccurenceMap.put(number, integerOccurenceMap.get(number) + 1);
+            } else {
+                integerOccurenceMap.put(number, 1);
+            }
+        }
+
+        return integerOccurenceMap;
     }
 
     public static int[] getIntegerArray(String[] numbers) {
@@ -31,17 +45,24 @@ public class App {
         }
     }
 
-    static List<String> findPairs(int[] numbersArray) {
+    public static List<String> findPairs(Map<Integer, Integer> integerOccurrenceMap) {
         List<String> result = new ArrayList<>();
         Set<Integer> checkedNumbers = new HashSet<>();
-        for (int num : numbersArray) {
+
+        for (int num : integerOccurrenceMap.keySet()) {
             int complement = TARGET_NUMBER - num;
-            if (checkedNumbers.contains(complement)) {
-                int smaller = Math.min(num, complement);
-                int larger = Math.max(num, complement);
-                result.add(smaller + " " + larger);
+            if (!checkedNumbers.contains(num) && integerOccurrenceMap.containsKey(complement)) {
+                int numOccurrence = integerOccurrenceMap.get(num);
+                int complementOccurrence = integerOccurrenceMap.getOrDefault(complement, 1);
+                int allOccurrence = numOccurrence * complementOccurrence;
+                for (int i = 0; i < allOccurrence; i++) {
+                    int smaller = Math.min(num, complement);
+                    int larger = Math.max(num, complement);
+                    result.add(smaller + " " + larger);
+                }
+                checkedNumbers.add(num);
+                checkedNumbers.add(complement);
             }
-            checkedNumbers.add(num);
         }
         return result;
     }

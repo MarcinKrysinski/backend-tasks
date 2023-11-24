@@ -1,6 +1,10 @@
 package pl.krysinski;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -21,17 +25,21 @@ public class AppTest {
     @Test
     void findPairsTest() {
         //given
-        int[] numbersArray = {1, 2, 10, 7, 5, 3, 6, 6, 13, 0};
-        List<String> expected = List.of("3 10", "6 7", "6 7", "0 13");
+        Map<Integer, Integer> testMap1 = new HashMap<>();
+        testMap1.put(13, 2);
+        testMap1.put(0, 1);
+        testMap1.put(3, 1);
+        testMap1.put(8, 2);
+        testMap1.put(5, 2);
         //when
-        List<String> result = App.findPairs(numbersArray);
+        List<String> result = App.findPairs(testMap1);
         //then
-        assertEquals(expected, result);
+        assertEquals(Arrays.asList("0 13", "0 13", "5 8", "5 8", "5 8", "5 8"), result);
     }
+
 
     @Test
     void getSortedPairsListTest() {
-        //given
         List<String> noSortedPairsList = List.of("3 10", "6 7", "6 7", "0 13");
         List<String> expected = List.of( "0 13", "3 10", "6 7", "6 7");
         //when
