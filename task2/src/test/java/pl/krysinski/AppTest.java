@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -20,6 +21,17 @@ public class AppTest {
         int[] result = App.getIntegerArray(numbers);
         //then
         assertArrayEquals(expected, result);
+    }
+
+    @Test
+    void getAllPairsThatSumUpToTargetTest() {
+        //given
+        String[] numbers = {"1", "2", "10", "5", "3", "6", "6", "13", "0", "7", "7"};
+        List<String> expected = List.of("0 13", "3 10", "6 7", "6 7", "6 7", "6 7");
+        //when
+        List<String> result = App.getAllPairsThatSumUpToTarget(numbers);
+        //then
+        assertEquals(expected, result);
     }
 
     @Test
@@ -41,7 +53,7 @@ public class AppTest {
     @Test
     void getSortedPairsListTest() {
         List<String> noSortedPairsList = List.of("3 10", "6 7", "6 7", "0 13");
-        List<String> expected = List.of( "0 13", "3 10", "6 7", "6 7");
+        List<String> expected = List.of("0 13", "3 10", "6 7", "6 7");
         //when
         List<String> result = App.getSortedPairsList(noSortedPairsList);
         //then

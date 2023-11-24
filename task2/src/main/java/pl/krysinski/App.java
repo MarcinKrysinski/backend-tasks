@@ -9,17 +9,23 @@ public class App {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+
         System.out.println("Enter numbers of integers seperated by a space: ");
         String input = scanner.nextLine();
 
         String[] numbers = input.split(" ");
-        Map<Integer, Integer> integerOccurenceMap = getIntegerOccurenceMap(getIntegerArray(numbers));
-        List<String> result = findPairs(integerOccurenceMap);
+        List<String> result = getAllPairsThatSumUpToTarget(numbers);
+
         getSortedPairsList(result).forEach(System.out::println);
         scanner.close();
     }
 
-    public static Map<Integer, Integer> getIntegerOccurenceMap(int[] integerArray) {
+    static List<String> getAllPairsThatSumUpToTarget(String[] numbers) {
+        Map<Integer, Integer> integerOccurenceMap = getIntegerOccurenceMap(getIntegerArray(numbers));
+        return findPairs(integerOccurenceMap);
+    }
+
+    static Map<Integer, Integer> getIntegerOccurenceMap(int[] integerArray) {
         Map<Integer, Integer> integerOccurenceMap = new HashMap<>();
 
         for (int number : integerArray) {
@@ -33,7 +39,7 @@ public class App {
         return integerOccurenceMap;
     }
 
-    public static int[] getIntegerArray(String[] numbers) {
+    static int[] getIntegerArray(String[] numbers) {
         try {
             return Arrays.stream(numbers)
                     .mapToInt(Integer::parseInt)
@@ -45,7 +51,7 @@ public class App {
         }
     }
 
-    public static List<String> findPairs(Map<Integer, Integer> integerOccurrenceMap) {
+    static List<String> findPairs(Map<Integer, Integer> integerOccurrenceMap) {
         List<String> result = new ArrayList<>();
         Set<Integer> checkedNumbers = new HashSet<>();
 
